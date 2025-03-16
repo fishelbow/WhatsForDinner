@@ -8,7 +8,7 @@ public class RecipeMenu {
    
 
     // This method displays the recipe menu
-    public static void recipeMenu(Scanner scanner, InventoryManager inventoryManager) {
+    public static void recipeMenu(Scanner scanner, KitchenManager inventoryManager) {
         boolean running = true;
 
         while (running) {
@@ -45,7 +45,7 @@ public class RecipeMenu {
         }
     }
 
-private static void createRecipe(Scanner scanner, InventoryManager inventoryManager) {
+private static void createRecipe(Scanner scanner, KitchenManager inventoryManager) {
     System.out.print("Enter recipe name: ");
     String recipeName = scanner.nextLine();
     Recipe recipe = new Recipe(recipeName);
@@ -84,13 +84,13 @@ private static void createRecipe(Scanner scanner, InventoryManager inventoryMana
 }
 
 
-    private static void deleteRecipe(Scanner scanner, InventoryManager inventoryManager) {
+    private static void deleteRecipe(Scanner scanner, KitchenManager inventoryManager) {
         System.out.print("Enter the name of the recipe to delete: ");
         String recipeName = scanner.nextLine();
         inventoryManager.deleteRecipe(recipeName);
     }
 
-    private static void generateGroceryList(Scanner scanner, InventoryManager inventoryManager) {
+    private static void generateGroceryList(Scanner scanner, KitchenManager inventoryManager) {
         System.out.print("Enter the name of the recipe: ");
         String recipeName = scanner.nextLine();
         inventoryManager.generateGroceryList(recipeName);

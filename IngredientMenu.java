@@ -1,11 +1,11 @@
 import java.util.Scanner;
 import java.util.InputMismatchException;
 
-public class InventoryMenu {
+public class IngredientMenu {
     // Load the inventory from the file during initialization
     
 
-    public static void displayMenu(InventoryManager inventoryManager) {
+    public static void displayMenu(KitchenManager inventoryManager) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -68,7 +68,7 @@ public class InventoryMenu {
         return choice;
     }
 
-    private static void addItem(Scanner scanner,InventoryManager inventoryManager) {
+    private static void addItem(Scanner scanner,KitchenManager inventoryManager) {
         System.out.print("Enter item name: ");
         String name = scanner.nextLine();
 
@@ -83,7 +83,7 @@ public class InventoryMenu {
         System.out.println("Item added successfully: " + name + " (" + quantity + ")");
     }
 
-    private static void removeItem(Scanner scanner,InventoryManager inventoryManager) {
+    private static void removeItem(Scanner scanner,KitchenManager inventoryManager) {
         System.out.print("Enter the name of the item to remove: ");
         String name = scanner.nextLine();
         inventoryManager.removeItem(name);

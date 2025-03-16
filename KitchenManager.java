@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class InventoryManager implements Serializable {
+public class KitchenManager implements Serializable {
     private static final long serialVersionUID = 1L;
     private HashMap<String, Ingredient> inventory = new HashMap<>();
     private List<Recipe> recipes = new ArrayList<>(); // List to manage recipes
@@ -104,7 +104,7 @@ public class InventoryManager implements Serializable {
     
 
     // Save the inventory to a file
-    public void saveToFile(String filename) {
+    public void saveToFile(String filename) { 
         System.out.println("DEBUG: Saving inventory with " + (recipes != null ? recipes.size() : "null") + " recipes.");
         try (FileOutputStream fileOut = new FileOutputStream(filename);
              ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
@@ -116,14 +116,14 @@ public class InventoryManager implements Serializable {
     }
     
     // load the inventory from a file
-   public static InventoryManager loadFromFile(String filename) {
+   public static KitchenManager loadFromFile(String filename) {
     try (FileInputStream fileIn = new FileInputStream(filename);
          ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
         System.out.println("Inventory loaded successfully from " + filename);
-        return (InventoryManager) objectIn.readObject();
+        return (KitchenManager) objectIn.readObject();
     } catch (IOException | ClassNotFoundException e) {
         System.err.println("Error loading inventory: " + e.getMessage() + ". Starting with a new inventory.");
-        return new InventoryManager();
+        return new KitchenManager();
     }
 }
 
