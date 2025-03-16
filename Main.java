@@ -1,10 +1,10 @@
 
-public class Main{ 
-//void main()
-public static void main(String[] args){
+    public class Main{ 
 
-TerminalMenu.displayMenu(); // not creating a new object .. accessing in a static way.
+    public static void main(String[] args){
 
- }
+        InventoryMenu.displayMenu(); // not creating a new object .. accessing in a static way.
+
+    }
 }
 

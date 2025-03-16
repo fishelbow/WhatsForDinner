@@ -1,9 +1,13 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 
 public class InventoryManager implements Serializable {
-    private static final long serialVersionUID = 1L; // Best practice for Serializable classes
+    private static final long serialVersionUID = 1L;
     private HashMap<String, Ingredient> inventory = new HashMap<>();
+    private List<Recipe> recipes = new ArrayList<>(); // List to manage recipes
 
     // Add an item to the inventory
     public void addItem(String name, int quantity, String expirationDate) {
@@ -37,6 +41,55 @@ public class InventoryManager implements Serializable {
                 System.out.println(item.getName() + " - Quantity: " + item.getQuantity() +
                         ", Expiration Date: " + item.getExpirationDate());
             }
+        }
+    }
+
+    // Add a recipe
+    public void addRecipe(Recipe recipe) {
+        recipes.add(recipe);
+        System.out.println("Recipe added: " + recipe.getName());
+    }
+
+    // View all recipes
+    public void viewRecipes() {
+        if (recipes.isEmpty()) {
+            System.out.println("No recipes found.");
+        } else {
+            System.out.println("\n--- Recipe List ---");
+            for (Recipe recipe : recipes) {
+                System.out.println(recipe);
+            }
+        }
+    }
+
+    // Delete a recipe by name
+    public void deleteRecipe(String recipeName) {
+        recipes.removeIf(recipe -> recipe.getName().equalsIgnoreCase(recipeName));
+        System.out.println("Recipe removed: " + recipeName);
+    }
+
+    // Generate a grocery list for a recipe
+    public void generateGroceryList(String recipeName) {
+        Recipe recipe = recipes.stream()
+                .filter(r -> r.getName().equalsIgnoreCase(recipeName))
+                .findFirst()
+                .orElse(null);
+
+        if (recipe == null) {
+            System.out.println("Recipe not found: " + recipeName);
+            return;
+        }
+
+        System.out.println("Grocery List for Recipe: " + recipeName);
+        for (var entry : recipe.getIngredients().entrySet()) {
+            String ingredientName = entry.getKey();
+            int requiredQuantity = entry.getValue();
+
+            Ingredient inventoryItem = inventory.get(ingredientName);
+            int missingQuantity = (inventoryItem == null) ? requiredQuantity
+                    : Math.max(0, requiredQuantity - inventoryItem.getQuantity());
+
+            System.out.println("- " + ingredientName + ": " + missingQuantity + " needed");
         }
     }
 

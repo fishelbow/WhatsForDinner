@@ -1,29 +1,38 @@
-import java.util.List;
+import java.io.Serializable;
+import java.util.HashMap;
 
-public class Recipe {
+public class Recipe implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
-    private List<String> ingredients;
+    private HashMap<String, Integer> ingredients; // Ingredient name -> Quantity
 
     // Constructor
-    public Recipe(String name, List<String> ingredients) {
+    public Recipe(String name) {
         this.name = name;
-        this.ingredients = ingredients;
+        this.ingredients = new HashMap<>();
     }
 
-    // Getters and Setters
+    // Add an ingredient to the recipe
+    public void addIngredient(String ingredientName, int quantity) {
+        ingredients.put(ingredientName, quantity);
+    }
+
+    // Getters
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<String> getIngredients() {
+    public HashMap<String, Integer> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Recipe: ").append(name).append("\nIngredients:\n");
+        for (var entry : ingredients.entrySet()) {
+            sb.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+        }
+        return sb.toString();
     }
 }
