@@ -1,13 +1,14 @@
 import java.io.Serializable;
 
-public class InventoryItem implements Serializable {
+public class Ingredient implements Serializable {
     private static final long serialVersionUID = 1L; // Best practice for Serializable classes
     private String name;
     private int quantity;
     private String expirationDate;
+    
 
     // Constructor
-    public InventoryItem(String name, int quantity, String expirationDate) {
+    public Ingredient(String name, int quantity, String expirationDate) {
         this.name = name;
         this.quantity = quantity;
         this.expirationDate = expirationDate;

@@ -3,15 +3,15 @@ import java.util.HashMap;
 
 public class InventoryManager implements Serializable {
     private static final long serialVersionUID = 1L; // Best practice for Serializable classes
-    private HashMap<String, InventoryItem> inventory = new HashMap<>();
+    private HashMap<String, Ingredient> inventory = new HashMap<>();
 
     // Add an item to the inventory
     public void addItem(String name, int quantity, String expirationDate) {
         if (inventory.containsKey(name)) {
-            InventoryItem item = inventory.get(name);
+            Ingredient item = inventory.get(name);
             item.setQuantity(item.getQuantity() + quantity); // Update the quantity
         } else {
-            InventoryItem newItem = new InventoryItem(name, quantity, expirationDate);
+            Ingredient newItem = new Ingredient(name, quantity, expirationDate);
             inventory.put(name, newItem);
         }
         System.out.println("Item added or updated successfully.");
@@ -33,7 +33,7 @@ public class InventoryManager implements Serializable {
             System.out.println("The inventory is empty.");
         } else {
             System.out.println("\n--- Inventory List ---");
-            for (InventoryItem item : inventory.values()) {
+            for (Ingredient item : inventory.values()) {
                 System.out.println(item.getName() + " - Quantity: " + item.getQuantity() +
                         ", Expiration Date: " + item.getExpirationDate());
             }
@@ -51,7 +51,7 @@ public class InventoryManager implements Serializable {
         }
     }
     
-
+    // load the inventory from a file
    public static InventoryManager loadFromFile(String filename) {
     try (FileInputStream fileIn = new FileInputStream(filename);
          ObjectInputStream objectIn = new ObjectInputStream(fileIn)) {
