@@ -1,12 +1,14 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
 
 public class KitchenManager implements Serializable {
     private static final long serialVersionUID = 1L;
-    private HashMap<String, Ingredient> inventory = new HashMap<>();
+    private HashMap<String, Ingredient> inventory = new HashMap<>(); //hash map for Ingredients
     private List<Recipe> recipes = new ArrayList<>(); // List to manage recipes
 
     // Add an item to the inventory
@@ -69,31 +71,7 @@ public class KitchenManager implements Serializable {
         System.out.println("Recipe removed: " + recipeName);
     }
 
-    // Generate a grocery list for a recipe
-    public void generateGroceryList(String recipeName) {
-        Recipe recipe = recipes.stream()
-                .filter(r -> r.getName().equalsIgnoreCase(recipeName))
-                .findFirst()
-                .orElse(null);
-
-        if (recipe == null) {
-            System.out.println("Recipe not found: " + recipeName);
-            return;
-        }
-
-        System.out.println("Grocery List for Recipe: " + recipeName);
-        for (var entry : recipe.getIngredients().entrySet()) {
-            String ingredientName = entry.getKey();
-            int requiredQuantity = entry.getValue();
-
-            Ingredient inventoryItem = inventory.get(ingredientName);
-            int missingQuantity = (inventoryItem == null) ? requiredQuantity
-                    : Math.max(0, requiredQuantity - inventoryItem.getQuantity());
-
-            System.out.println("- " + ingredientName + ": " + missingQuantity + " needed");
-        }
-    }
-
+    // possibly redundent code trying to find my way around.
     private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         if (recipes == null) {
@@ -102,6 +80,31 @@ public class KitchenManager implements Serializable {
         }
     }
     
+
+    // such a busy object, I had used this code in multiple places. 
+    // and seeing as how KitchenManger is the catch all utility I put it here. felt cute might delete later.
+
+    public static int getValidChoice(Scanner scanner, int min, int max) {
+        int choice = -1;
+        boolean validInput = false;
+        while (!validInput) {
+            try {
+                System.out.print("Enter your choice: ");
+                choice = scanner.nextInt();
+                scanner.nextLine(); // Consume leftover newline
+                if (choice >= min && choice <= max) {
+                    validInput = true;
+                } else {
+                    System.out.println("Invalid choice. Please choose a number between " + min + " and " + max + ".");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a number.");
+                scanner.nextLine(); // Clear the invalid input
+            }
+        }
+        return choice;
+    }
+
 
     // Save the inventory to a file
     public void saveToFile(String filename) { 

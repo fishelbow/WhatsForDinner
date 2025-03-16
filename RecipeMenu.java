@@ -3,12 +3,8 @@ import java.util.InputMismatchException;
 
 public class RecipeMenu {
 
-    // Ensure that inventoryManager is properly initialized;
-    // It should be a static field available to all methods in this class.
-   
-
     // This method displays the recipe menu
-    public static void recipeMenu(Scanner scanner, KitchenManager inventoryManager) {
+    public static void recipeMenu(Scanner scanner, KitchenManager kitchenManager) {
         boolean running = true;
 
         while (running) {
@@ -16,27 +12,24 @@ public class RecipeMenu {
             System.out.println("1. Create a Recipe");
             System.out.println("2. View Recipes");
             System.out.println("3. Delete a Recipe");
-            System.out.println("4. Generate Grocery List for a Recipe");
-            System.out.println("5. Back to Inventory Menu");
-            System.out.print("Choose an option: ");
+            System.out.println("4. Back to Main Menu");
 
-            int choice = getValidChoice(scanner, 1, 5);
+
+            int choice = KitchenManager.getValidChoice(scanner, 1, 4);
 
             switch (choice) {
                 case 1:
-                    createRecipe(scanner, inventoryManager);
+                    createRecipe(scanner, kitchenManager);
 
                     break;
                 case 2:
-                    inventoryManager.viewRecipes();
+                    kitchenManager.viewRecipes();
                     break;
                 case 3:
-                    deleteRecipe(scanner, inventoryManager);
+                    deleteRecipe(scanner, kitchenManager);
                     break;
                 case 4:
-                    generateGroceryList(scanner, inventoryManager);
-                    break;
-                case 5:
+                    System.out.println("Back to Main Menu");
                     running = false;
                     break;
                 default:
@@ -45,7 +38,7 @@ public class RecipeMenu {
         }
     }
 
-private static void createRecipe(Scanner scanner, KitchenManager inventoryManager) {
+    private static void createRecipe(Scanner scanner, KitchenManager kitchenManager) {
     System.out.print("Enter recipe name: ");
     String recipeName = scanner.nextLine();
     Recipe recipe = new Recipe(recipeName);
@@ -75,44 +68,18 @@ private static void createRecipe(Scanner scanner, KitchenManager inventoryManage
         }
     }
 
-    inventoryManager.addRecipe(recipe);
+    kitchenManager.addRecipe(recipe);
     System.out.println("Recipe created successfully: " + recipeName);
     
-    inventoryManager.saveToFile("inventory.ser");
+    kitchenManager.saveToFile("inventory.ser");
 
     System.out.println("Recipe Saved!!");
 }
 
-
-    private static void deleteRecipe(Scanner scanner, KitchenManager inventoryManager) {
+    private static void deleteRecipe(Scanner scanner, KitchenManager kitchenManager) {
         System.out.print("Enter the name of the recipe to delete: ");
         String recipeName = scanner.nextLine();
-        inventoryManager.deleteRecipe(recipeName);
+        kitchenManager.deleteRecipe(recipeName);
     }
 
-    private static void generateGroceryList(Scanner scanner, KitchenManager inventoryManager) {
-        System.out.print("Enter the name of the recipe: ");
-        String recipeName = scanner.nextLine();
-        inventoryManager.generateGroceryList(recipeName);
-    }
-
-    private static int getValidChoice(Scanner scanner, int min, int max) {
-        int choice = -1;
-        boolean validInput = false;
-        while (!validInput) {
-            try {
-                choice = scanner.nextInt();
-                scanner.nextLine(); // Consume leftover newline
-                if (choice >= min && choice <= max) {
-                    validInput = true;
-                } else {
-                    System.out.println("Invalid choice. Please choose a number between " + min + " and " + max + ".");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Invalid input! Please enter a number.");
-                scanner.nextLine(); // Clear the invalid input
-            }
-        }
-        return choice;
-    }
 }
