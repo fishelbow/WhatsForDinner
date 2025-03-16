@@ -47,6 +47,7 @@ public class InventoryManager implements Serializable {
     // Add a recipe
     public void addRecipe(Recipe recipe) {
         recipes.add(recipe);
+        saveToFile("inventory.ser");
         System.out.println("Recipe added: " + recipe.getName());
     }
 
@@ -93,8 +94,18 @@ public class InventoryManager implements Serializable {
         }
     }
 
+    private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        ois.defaultReadObject();
+        if (recipes == null) {
+            recipes = new ArrayList<>();
+            System.out.println("DEBUG: recipes list was null; reinitialized.");
+        }
+    }
+    
+
     // Save the inventory to a file
     public void saveToFile(String filename) {
+        System.out.println("DEBUG: Saving inventory with " + (recipes != null ? recipes.size() : "null") + " recipes.");
         try (FileOutputStream fileOut = new FileOutputStream(filename);
              ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
             objectOut.writeObject(this); // Serialize the current InventoryManager object

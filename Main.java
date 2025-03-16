@@ -3,8 +3,12 @@
 
     public static void main(String[] args){
 
-        InventoryMenu.displayMenu(); // not creating a new object .. accessing in a static way.
 
-    }
-}
+                InventoryManager inventoryManager = InventoryManager.loadFromFile("inventory.ser");
+                
+                // Pass the same instance to all menus:
+                InventoryMenu.displayMenu(inventoryManager);
+            }
+        }
+        
 

@@ -3,9 +3,9 @@ import java.util.InputMismatchException;
 
 public class InventoryMenu {
     // Load the inventory from the file during initialization
-    private static InventoryManager inventoryManager = InventoryManager.loadFromFile("inventory.ser");
+    
 
-    public static void displayMenu() {
+    public static void displayMenu(InventoryManager inventoryManager) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
 
@@ -22,17 +22,17 @@ public class InventoryMenu {
 
             switch (choice) {
                 case 1:
-                    addItem(scanner);
+                    addItem(scanner, inventoryManager);
                     break;
                 case 2:
                     inventoryManager.viewItems();
                     break;
                 case 3:
-                    removeItem(scanner);
+                    removeItem(scanner, inventoryManager);
                     break;
                 case 4:
                     // Call the recipe menu. Ensure that RecipeMenu is defined and its recipeMenu method is public and static.
-                    RecipeMenu.recipeMenu(scanner);
+                    RecipeMenu.recipeMenu(scanner, inventoryManager);
                     break;
                 case 5:
                     System.out.println("Exiting the program...");
@@ -68,7 +68,7 @@ public class InventoryMenu {
         return choice;
     }
 
-    private static void addItem(Scanner scanner) {
+    private static void addItem(Scanner scanner,InventoryManager inventoryManager) {
         System.out.print("Enter item name: ");
         String name = scanner.nextLine();
 
@@ -83,15 +83,11 @@ public class InventoryMenu {
         System.out.println("Item added successfully: " + name + " (" + quantity + ")");
     }
 
-    private static void removeItem(Scanner scanner) {
+    private static void removeItem(Scanner scanner,InventoryManager inventoryManager) {
         System.out.print("Enter the name of the item to remove: ");
         String name = scanner.nextLine();
         inventoryManager.removeItem(name);
         System.out.println("Item removed successfully: " + name);
     }
 
-    // Main method to launch the Inventory Menu
-    public static void main(String[] args) {
-        displayMenu();
-    }
 }

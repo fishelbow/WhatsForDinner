@@ -5,10 +5,10 @@ public class RecipeMenu {
 
     // Ensure that inventoryManager is properly initialized;
     // It should be a static field available to all methods in this class.
-    private static InventoryManager inventoryManager = InventoryManager.loadFromFile("inventory.ser");
+   
 
     // This method displays the recipe menu
-    public static void recipeMenu(Scanner scanner) {
+    public static void recipeMenu(Scanner scanner, InventoryManager inventoryManager) {
         boolean running = true;
 
         while (running) {
@@ -24,17 +24,17 @@ public class RecipeMenu {
 
             switch (choice) {
                 case 1:
-                    createRecipe(scanner);
+                    createRecipe(scanner, inventoryManager);
+
                     break;
                 case 2:
-                    // Corrected method name to viewRecipes() (plural)
                     inventoryManager.viewRecipes();
                     break;
                 case 3:
-                    deleteRecipe(scanner);
+                    deleteRecipe(scanner, inventoryManager);
                     break;
                 case 4:
-                    generateGroceryList(scanner);
+                    generateGroceryList(scanner, inventoryManager);
                     break;
                 case 5:
                     running = false;
@@ -45,7 +45,7 @@ public class RecipeMenu {
         }
     }
 
-private static void createRecipe(Scanner scanner) {
+private static void createRecipe(Scanner scanner, InventoryManager inventoryManager) {
     System.out.print("Enter recipe name: ");
     String recipeName = scanner.nextLine();
     Recipe recipe = new Recipe(recipeName);
@@ -77,16 +77,20 @@ private static void createRecipe(Scanner scanner) {
 
     inventoryManager.addRecipe(recipe);
     System.out.println("Recipe created successfully: " + recipeName);
+    
+    inventoryManager.saveToFile("inventory.ser");
+
+    System.out.println("Recipe Saved!!");
 }
 
 
-    private static void deleteRecipe(Scanner scanner) {
+    private static void deleteRecipe(Scanner scanner, InventoryManager inventoryManager) {
         System.out.print("Enter the name of the recipe to delete: ");
         String recipeName = scanner.nextLine();
         inventoryManager.deleteRecipe(recipeName);
     }
 
-    private static void generateGroceryList(Scanner scanner) {
+    private static void generateGroceryList(Scanner scanner, InventoryManager inventoryManager) {
         System.out.print("Enter the name of the recipe: ");
         String recipeName = scanner.nextLine();
         inventoryManager.generateGroceryList(recipeName);
