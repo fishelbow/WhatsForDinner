@@ -108,7 +108,7 @@ public class KitchenManager implements Serializable {
 
     // Save the inventory to a file
     public void saveToFile(String filename) { 
-        System.out.println("DEBUG: Saving inventory with " + (recipes != null ? recipes.size() : "null") + " recipes.");
+      //  System.out.println("DEBUG: Saving inventory with " + (recipes != null ? recipes.size() : "null") + " recipes.");
         try (FileOutputStream fileOut = new FileOutputStream(filename);
              ObjectOutputStream objectOut = new ObjectOutputStream(fileOut)) {
             objectOut.writeObject(this); // Serialize the current InventoryManager object

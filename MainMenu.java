@@ -27,6 +27,7 @@ public class MainMenu {
             break;
         case 3:
             running = false;
+            kitchenManager.saveToFile("inventory.ser");
             System.out.println("exiting program...");
             break;
         default:
@@ -36,3 +37,6 @@ public class MainMenu {
         }
     }
 }
+
+  
+
